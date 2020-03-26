@@ -1,6 +1,6 @@
 mod png_gen;
-
 use png_gen::gen_png;
+
 fn is_in_line(
     (begin_x, begin_y): (f32, f32),
     (end_x, end_y): (f32, f32),
@@ -27,11 +27,36 @@ fn is_in_line(
     }
 }
 
+fn is_in_square(
+    (x1, y1): (f32, f32),
+    (x2, y2): (f32, f32),
+    (x3, y3): (f32, f32),
+    (x4, y4): (f32, f32),
+) -> impl Fn(f32, f32) -> bool {
+    /*
+        1------2
+        |      |
+        |      |
+        4------3
+    */
+    let side_size = x2 - x1;
+    let (center_x, center_y) = (x3 - x1, y1 - y3);
+    move |x, y| {
+        let max = x.max(y);
+        if max == x {
+            (max - center_x).abs() == side_size
+        } else {
+            (max - center_y).abs() == side_size
+        }
+    }
+}
 fn main() {
     let mut vec = vec![];
-    let begin_coord = (400f32, 250f32);
-    let end_coord = (250f32, 400f32);
-    let is_in = is_in_line(begin_coord, end_coord);
+    let a1 = (400.0, 250.0);
+    let a2 = (250.0, 400.0);
+    let a3 = (250.0, 100.0);
+    let a4 = (100.0, 250.0);
+    let is_in = is_in_square(a1, a2, a3, a4);
     let height = 500;
     let width = 500;
     let mut cntr = 0;

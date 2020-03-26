@@ -35,12 +35,12 @@ fn main() {
     let height = 500;
     let width = 500;
     let mut cntr = 0;
-    for x in 0..height {
+    for x in (0..height).rev() {
         for y in 0..width {
             if is_in(x as f32, y as f32) {
                 cntr += 1;
-                vec.push(50);
-                vec.push(50);
+                vec.push(150);
+                vec.push(200);
                 vec.push(100);
             } else {
                 vec.push(0);
